@@ -12,13 +12,13 @@ COPY src src
 
 RUN ./gradlew bootJar -x test
 
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
-RUN groupadd -r spring && useradd -r -g spring spring
+RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
 EXPOSE 8080
